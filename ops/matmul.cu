@@ -9,7 +9,7 @@
 
 using namespace Ops;
 
-static const uint32_t MATMUL_TILE_SIZE = 32;
+static const uint32_t MATMUL_TILE_SIZE = 8;
 
 chrono::duration<float> Matmul::forwardTime;
 chrono::duration<float> Matmul::backwardTime;

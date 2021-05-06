@@ -1,3 +1,6 @@
+"""
+This file provides utilities to translate between my custom data format and NumPy arrays.
+"""
 import numpy as np
 
 def save(array, path):

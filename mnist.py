@@ -1,6 +1,8 @@
 import torch
 import torch.nn.functional as F
 import numpy as np
+import sys
+import time
 from torchvision.datasets import FashionMNIST
 from export import save, load
 
@@ -38,15 +40,11 @@ model = Model().cuda()
 
 # print(F.cross_entropy(model(test_data), test_labels).item())
 
-bs = 128
-epochs = 5
+bs = 1250
+epochs = 10
 lr = 0.01
 
-train_data = train_data.cuda()
-train_labels = train_labels.cuda()
-test_data = test_data.cuda()
-test_labels = test_labels.cuda()
-
+start = time.time()
 for epoch in range(epochs):
     total_loss = 0
     for i in range(len(test_data) // bs):
@@ -64,6 +62,7 @@ for epoch in range(epochs):
             model.zero_grad()
         total_loss += loss.detach().item()
     print("Epoch: ", epoch, "loss: ", total_loss / (len(test_data) // bs))
+print(time.time() - start)
 
 print(accuracy(model(test_data.cuda()), test_labels.cuda()))
 # save(model.w1.detach().cpu().numpy().T, "weights/w1.data")

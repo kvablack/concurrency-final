@@ -59,6 +59,7 @@ int main(int argc, char* argv[]) {
 
     uint32_t numBatches = data.height / batchSize;
     Model model(checkpointDir, batchSize);
+    auto start = chrono::steady_clock::now();
     if (!train) {
         float accuracy = 0;
         for (uint32_t i = 0; i < numBatches; i++) {
@@ -77,9 +78,12 @@ int main(int argc, char* argv[]) {
                 loss += model.trainStep(0.01, useGpu);
             }
             printf("Epoch: %d, loss: %f\n", i, loss / numBatches);
-            // model.save();
+            model.save();
         }
     }
+    chrono::duration<double> duration = chrono::steady_clock::now() - start;
+
+    printf("Primary execution time: %f\n\n", duration.count());
 
     printf("Allocation time: %f\n", Matrix::allocTime.count());
     printf("Copy time: %f\n", Matrix::copyTime.count());

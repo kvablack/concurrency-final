@@ -31,8 +31,10 @@ void Parameter::init() {
     auto start = chrono::steady_clock::now();
 
     if (this->height == 1) {
+        // zero initialization for bias
         memset(this->out.get(), 0, this->height * this->width * 4);
     } else {
+        // He weight initialization, which is best for ReLU
         default_random_engine generator;
         normal_distribution<float> dist(0, sqrt(2 / this->width));
         float* data = this->out.get();
